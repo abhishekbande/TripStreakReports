@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CommonContentModelStoreContainer" CdmEntityContainer="ProdCommonContentEntities">
+    <EntitySetMapping Name="airamenities">
+      <EntityTypeMapping TypeName="CommonContentModel.airamenity">
+        <MappingFragment StoreEntitySet="airamenities">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Airline" ColumnName="Airline" />
+          <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+          <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+          <ScalarProperty Name="AircraftModel" ColumnName="AircraftModel" />
+          <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+          <ScalarProperty Name="IataTypeMapping" ColumnName="IataTypeMapping" />
+          <ScalarProperty Name="Cabin" ColumnName="Cabin" />
+          <ScalarProperty Name="VideoType" ColumnName="VideoType" />
+          <ScalarProperty Name="InSeatPowerType" ColumnName="InSeatPowerType" />
+          <ScalarProperty Name="WiFiAvailablilty" ColumnName="WiFiAvailablilty" />
+          <ScalarProperty Name="SeatType" ColumnName="SeatType" />
+          <ScalarProperty Name="AvailableAtArrivalAirport" ColumnName="AvailableAtArrivalAirport" />
+          <ScalarProperty Name="AvailableAtDepartureAirport" ColumnName="AvailableAtDepartureAirport" />
+          <ScalarProperty Name="AvailableInCountry" ColumnName="AvailableInCountry" />
+          <ScalarProperty Name="BeingUpgraded" ColumnName="BeingUpgraded" />
+          <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

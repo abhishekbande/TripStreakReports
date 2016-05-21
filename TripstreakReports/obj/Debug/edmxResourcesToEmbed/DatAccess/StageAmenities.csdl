@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CommonContentModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="StageCommonContentEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="airamenities" EntityType="CommonContentModel.airamenity" />
+  </EntityContainer>
+  <EntityType Name="airamenity">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Airline" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
+    <Property Name="AirlineCode" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
+    <Property Name="Manufacturer" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="AircraftModel" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="AircraftType" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+    <Property Name="IataTypeMapping" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
+    <Property Name="Cabin" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+    <Property Name="VideoType" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+    <Property Name="InSeatPowerType" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+    <Property Name="WiFiAvailablilty" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+    <Property Name="SeatType" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+    <Property Name="AvailableAtArrivalAirport" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
+    <Property Name="AvailableAtDepartureAirport" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
+    <Property Name="AvailableInCountry" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
+    <Property Name="BeingUpgraded" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <Property Name="LastUpdatedOn" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
+  </EntityType>
+</Schema>

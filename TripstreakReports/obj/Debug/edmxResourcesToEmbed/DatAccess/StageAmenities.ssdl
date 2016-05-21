@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CommonContentModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CommonContentModelStoreContainer">
+    <EntitySet Name="airamenities" EntityType="CommonContentModel.Store.airamenities" store:Type="Tables" Schema="scommoncontent" />
+  </EntityContainer>
+  <EntityType Name="airamenities">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Airline" Type="varchar" Nullable="false" MaxLength="45" />
+    <Property Name="AirlineCode" Type="varchar" Nullable="false" MaxLength="45" />
+    <Property Name="Manufacturer" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="AircraftModel" Type="varchar" MaxLength="50" />
+    <Property Name="AircraftType" Type="enum" Nullable="false" />
+    <Property Name="IataTypeMapping" Type="varchar" Nullable="false" MaxLength="45" />
+    <Property Name="Cabin" Type="enum" Nullable="false" />
+    <Property Name="VideoType" Type="enum" Nullable="false" />
+    <Property Name="InSeatPowerType" Type="enum" Nullable="false" />
+    <Property Name="WiFiAvailablilty" Type="enum" Nullable="false" />
+    <Property Name="SeatType" Type="enum" Nullable="false" />
+    <Property Name="AvailableAtArrivalAirport" Type="varchar" MaxLength="5" />
+    <Property Name="AvailableAtDepartureAirport" Type="varchar" MaxLength="5" />
+    <Property Name="AvailableInCountry" Type="varchar" MaxLength="5" />
+    <Property Name="BeingUpgraded" Type="varchar" />
+    <Property Name="LastUpdatedOn" Type="timestamp" StoreGeneratedPattern="Identity" />
+  </EntityType>
+</Schema>

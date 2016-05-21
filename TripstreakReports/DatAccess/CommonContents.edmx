@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CommonContentModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="CommonContentModelStoreContainer">
+          <EntitySet Name="airamenities" EntityType="CommonContentModel.Store.airamenities" store:Type="Tables" Schema="commoncontent" />
+        </EntityContainer>
+        <EntityType Name="airamenities">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Airline" Type="varchar" Nullable="false" MaxLength="45" />
+          <Property Name="AirlineCode" Type="varchar" Nullable="false" MaxLength="45" />
+          <Property Name="Manufacturer" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="AircraftModel" Type="varchar" MaxLength="50" />
+          <Property Name="AircraftType" Type="enum" Nullable="false" />
+          <Property Name="IataTypeMapping" Type="varchar" Nullable="false" MaxLength="45" />
+          <Property Name="Cabin" Type="enum" Nullable="false" />
+          <Property Name="VideoType" Type="enum" Nullable="false" />
+          <Property Name="InSeatPowerType" Type="enum" Nullable="false" />
+          <Property Name="WiFiAvailablilty" Type="enum" Nullable="false" />
+          <Property Name="SeatType" Type="enum" Nullable="false" />
+          <Property Name="AvailableAtArrivalAirport" Type="varchar" MaxLength="5" />
+          <Property Name="AvailableAtDepartureAirport" Type="varchar" MaxLength="5" />
+          <Property Name="AvailableInCountry" Type="varchar" MaxLength="5" />
+          <Property Name="BeingUpgraded" Type="varchar" />
+          <Property Name="LastUpdatedOn" Type="timestamp" StoreGeneratedPattern="Identity" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CommonContentModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CommonContentEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="airamenities" EntityType="CommonContentModel.airamenity" />
+        </EntityContainer>
+        <EntityType Name="airamenity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Airline" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
+          <Property Name="AirlineCode" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
+          <Property Name="Manufacturer" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="AircraftModel" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="AircraftType" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+          <Property Name="IataTypeMapping" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
+          <Property Name="Cabin" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+          <Property Name="VideoType" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+          <Property Name="InSeatPowerType" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+          <Property Name="WiFiAvailablilty" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+          <Property Name="SeatType" Type="String" Nullable="false" MaxLength="65532" Unicode="false" FixedLength="false" />
+          <Property Name="AvailableAtArrivalAirport" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
+          <Property Name="AvailableAtDepartureAirport" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
+          <Property Name="AvailableInCountry" Type="String" MaxLength="5" Unicode="false" FixedLength="false" />
+          <Property Name="BeingUpgraded" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="LastUpdatedOn" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CommonContentModelStoreContainer" CdmEntityContainer="CommonContentEntities">
+          <EntitySetMapping Name="airamenities">
+            <EntityTypeMapping TypeName="CommonContentModel.airamenity">
+              <MappingFragment StoreEntitySet="airamenities">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Airline" ColumnName="Airline" />
+                <ScalarProperty Name="AirlineCode" ColumnName="AirlineCode" />
+                <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+                <ScalarProperty Name="AircraftModel" ColumnName="AircraftModel" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="IataTypeMapping" ColumnName="IataTypeMapping" />
+                <ScalarProperty Name="Cabin" ColumnName="Cabin" />
+                <ScalarProperty Name="VideoType" ColumnName="VideoType" />
+                <ScalarProperty Name="InSeatPowerType" ColumnName="InSeatPowerType" />
+                <ScalarProperty Name="WiFiAvailablilty" ColumnName="WiFiAvailablilty" />
+                <ScalarProperty Name="SeatType" ColumnName="SeatType" />
+                <ScalarProperty Name="AvailableAtArrivalAirport" ColumnName="AvailableAtArrivalAirport" />
+                <ScalarProperty Name="AvailableAtDepartureAirport" ColumnName="AvailableAtDepartureAirport" />
+                <ScalarProperty Name="AvailableInCountry" ColumnName="AvailableInCountry" />
+                <ScalarProperty Name="BeingUpgraded" ColumnName="BeingUpgraded" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
