@@ -210,6 +210,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DashboardModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -348,7 +349,10 @@
     <Content Include="Images\257.gif" />
     <Content Include="Images\AmenityTableSpinner.gif" />
     <Content Include="Images\DashboadSpinner.gif" />
+    <Content Include="Images\favicon.ico" />
     <Content Include="Images\image_989380.gif" />
+    <Content Include="Images\logo%402x.png" />
+    <Content Include="Images\logo.png" />
     <Content Include="Images\Preloader_8.gif" />
     <Content Include="pages\calendar.html" />
     <Content Include="pages\charts\chartjs.html" />

@@ -2,49 +2,83 @@
 
 @{
     ViewBag.Title = "Log in";
+    Layout = null;
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
 
-<section id="loginForm">
-<h2>Use a local account to log in.</h2>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="icon" type="image/gif/png" href="~/Images/favicon.ico" />
+    <link href="~/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="~/dist/css/AdminLTE.css" rel="stylesheet" />
+</head>
+<body class="hold-transition lockscreen" style="min-height: 0px">
+    <!-- Automatic element centering -->
+    <div class="lockscreen-wrapper">
+        <div class="lockscreen-logo">
+            <a href="#" style="color: white;">TripStreak Reports</a>
 
-    <fieldset>
-        <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-            </li>
-        </ol>
-        <input type="submit" value="Log in" />
-    </fieldset>
-    <p>
-        @Html.ActionLink("Register", "Register") if you don't have an account.
-    </p>
-}
-</section>
+        </div>
+        @if (@Model!=null && !string.IsNullOrEmpty(@Model.Message))
+        {
+            <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="text-decoration: blink;">&times;</a>
+                @Model.Message
+            </div>
+        }
+        <!-- User name -->
 
-<section class="social" id="socialLoginForm">
-    <h2>Use another service to log in.</h2>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-</section>
+        <div class="lockscreen-name">
+            <img src="/Images/logo@2x.png" alt="Logo" style="width: 132px;"></div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        <!-- START LOCK SCREEN ITEM -->
+
+        <div class="lockscreen-item">
+            <!-- lockscreen image -->
+
+            <div class="lockscreen-image">
+                <img src="/Images/favicon.ico" alt="User Image">
+            </div>
+            <!-- /.lockscreen-image -->
+
+            <!-- lockscreen credentials (contains the form) -->
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "lockscreen-credentials" }))
+            {               
+                <div class="input-group">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @autofocus=true })
+                    <div class="input-group-btn">
+                        <button class="btn" type="submit"><i class="fa fa-arrow-right text-muted"></i></button>
+                    </div>
+                </div>
+               
+            }
+            <!-- /.lockscreen credentials -->
+
+        </div>
+        <!-- /.lockscreen-item -->
+        <div class="help-block text-center" style="color: white;">
+            Enter your password to retrieve your session
+
+        </div>
+        <div class="lockscreen-footer text-center">
+            Copyright &copy; 2015 <b><a href="http://almsaeedstudio.com" class="text-black">Tripstreak</a></b><br>
+            All rights reserved
+     
+        </div>
+    </div>
+    <!-- /.center -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
+
