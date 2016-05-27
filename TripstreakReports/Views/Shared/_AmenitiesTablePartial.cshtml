@@ -1,0 +1,61 @@
+﻿@using TripstreakReports.DatAccess
+@model TripstreakReports.Models.DashboardModel
+
+
+
+
+    <table id="Amenities" class="table table-striped table-bordered">
+      
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Airline</th>
+            <th>AirlineCode</th>
+            <th>Manufacturer</th>
+            <th>AircraftModel</th>
+            <th>AircraftType</th>
+            <th>IataTypeMapping</th>
+            <th>Cabin</th>
+            <th>VideoType</th>
+            <th>InSeatPowerType</th>
+            <th>WiFiAvailability</th>
+            <th>SeatType</th>
+            <th style="">LastUpdatedOn</th>
+            <th style="display: none;">AvailableAtArrivalAirport</th>
+            <th style="display: none;">AvailableAtDepartureAirport</th>
+            <th style="display: none;">AvailableInCountry</th>
+            <th style="display: none;">BeingUpgraded</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        @if (Model != null && Model.Amenities != null && Model.Amenities.Count > 0)
+        {
+            foreach (airamenity amenity in Model.Amenities)
+            {
+                <tr id="@amenity.ID">
+                    <td style="white-space: nowrap;">@amenity.ID</td>
+                    <td style="white-space: nowrap;">@amenity.Airline</td>
+                    <td style="white-space: nowrap;">@amenity.AirlineCode</td>
+                    <td style="white-space: nowrap;">@amenity.Manufacturer</td>
+                    <td style="white-space: nowrap;">@amenity.AircraftModel</td>
+                    <td style="white-space: nowrap;">@amenity.AircraftType</td>
+                    <td style="white-space: nowrap;">@amenity.IataTypeMapping</td>
+                    <td style="white-space: nowrap;">@amenity.Cabin</td>
+                    <td style="white-space: nowrap;">@amenity.VideoType</td>
+                    <td style="white-space: nowrap;">@amenity.InSeatPowerType</td>
+                    <td style="white-space: nowrap;">@amenity.WiFiAvailablilty</td>
+                    <td style="white-space: nowrap;">@amenity.SeatType</td>
+                    <td style="white-space: nowrap;">@amenity.LastUpdatedOn</td>
+                    <td style="display: none;">@amenity.AvailableAtArrivalAirport</td>
+                    <td style="display: none;">@amenity.AvailableAtDepartureAirport</td>
+                    <td style="display: none;">@amenity.AvailableInCountry</td>
+                    <td style="display: none;">@amenity.BeingUpgraded</td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+
+<!-- /.box-body -->

@@ -13,5 +13,7 @@ namespace TripstreakReports.Models
         public List<airamenity> Amenities { get; set; }
 
         public airamenity Amenity { get; set; }
+
+        public string AmenityIds { get; set; }
     }
 }

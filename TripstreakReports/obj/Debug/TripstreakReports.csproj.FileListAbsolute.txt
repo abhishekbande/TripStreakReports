@@ -74,6 +74,6 @@ D:\Git\TripstreakReports\TripstreakReports\bin\ko\System.Spatial.resources.dll
 D:\Git\TripstreakReports\TripstreakReports\bin\ru\System.Spatial.resources.dll
 D:\Git\TripstreakReports\TripstreakReports\bin\zh-Hans\System.Spatial.resources.dll
 D:\Git\TripstreakReports\TripstreakReports\bin\zh-Hant\System.Spatial.resources.dll
-D:\Git\TripstreakReports\TripstreakReports\obj\Debug\TripstreakReports.csprojResolveAssemblyReference.cache
 D:\Git\TripstreakReports\TripstreakReports\obj\Debug\TripstreakReports.dll
 D:\Git\TripstreakReports\TripstreakReports\obj\Debug\TripstreakReports.pdb
+D:\Git\TripstreakReports\TripstreakReports\obj\Debug\TripstreakReports.csprojResolveAssemblyReference.cache

@@ -15,8 +15,8 @@ namespace TripstreakReports.DatAccess
     
     public partial class CommonContentEntities : DbContext
     {
-        public CommonContentEntities()
-            : base("name=CommonContentEntities")
+        public CommonContentEntities(string connectionString = "ProdCommonContentEntities")
+            : base("name="+connectionString)
         {
         }
     

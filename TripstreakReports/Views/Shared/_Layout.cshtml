@@ -1,4 +1,5 @@
-﻿@using TripstreakReports.Models
+﻿@using TripstreakReports.Controllers
+@using TripstreakReports.Models
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +16,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
     <link href="/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
 
     @*<link rel="stylesheet" href="/dist/css/AdminLTE.min.css">*@
@@ -24,10 +24,10 @@
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.1/css/bootstrap3/bootstrap-switch.css" rel="stylesheet">
     <link href="http://formvalidation.io/vendor/formvalidation/css/formValidation.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 
-
-    @*<link href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet"/>       *@
-
+    @*<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>*@
 
     <style type="text/css">
         /*.table-hover tbody tr:hover td
@@ -39,11 +39,51 @@
             background-color: #08C !important;
             color: white;
         }
+
+        .snipper {
+            background: #ffffff;
+            color: #666666;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            z-index: 5000;
+            top: 0;
+            left: 0;
+            float: left;
+            text-align: center;
+            padding-top: 20%;
+        }
+
+        .snipper1 {            
+            color: #666666;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 5000;
+            top: 0;
+            left: 0;
+            float: left;
+            text-align: center;
+            padding-top: 20%;
+            display: block !important
+        }
+
+        .fadeout {
+            opacity: 0.4
+        }
+
+        #OverlayAmenityTable {
+            display: none
+        }
+
     </style>
 
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+    <div id="overlay" class="snipper">
+        <img src="/Images/DashboadSpinner.gif" alt="Loading" /><br />
+    </div>
     <div class="wrapper">
         <header class="main-header">
 
@@ -200,8 +240,8 @@
                         <li>
                             <a href="javascript::;">
                                 <h4 class="control-sidebar-subheading">Custom Template Design
-                   
-                                    <span class="label label-danger pull-right">70%</span>
+
+                            <span class="label label-danger pull-right">70%</span>
                                 </h4>
                                 <div class="progress progress-xxs">
                                     <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
@@ -211,8 +251,8 @@
                         <li>
                             <a href="javascript::;">
                                 <h4 class="control-sidebar-subheading">Update Resume
-                   
-                                    <span class="label label-success pull-right">95%</span>
+
+                            <span class="label label-success pull-right">95%</span>
                                 </h4>
                                 <div class="progress progress-xxs">
                                     <div class="progress-bar progress-bar-success" style="width: 95%"></div>
@@ -222,8 +262,8 @@
                         <li>
                             <a href="javascript::;">
                                 <h4 class="control-sidebar-subheading">Laravel Integration
-                   
-                                    <span class="label label-warning pull-right">50%</span>
+
+                            <span class="label label-warning pull-right">50%</span>
                                 </h4>
                                 <div class="progress progress-xxs">
                                     <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
@@ -233,8 +273,8 @@
                         <li>
                             <a href="javascript::;">
                                 <h4 class="control-sidebar-subheading">Back End Framework
-                   
-                                    <span class="label label-primary pull-right">68%</span>
+
+                            <span class="label label-primary pull-right">68%</span>
                                 </h4>
                                 <div class="progress progress-xxs">
                                     <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
@@ -254,12 +294,12 @@
                         <div class="form-group">
                             <label class="control-sidebar-subheading">
                                 Report panel usage
-                 
-                                <input type="checkbox" class="pull-right" checked>
+
+                        <input type="checkbox" class="pull-right" checked>
                             </label>
                             <p>
                                 Some information about this general settings option
-               
+
                             </p>
                         </div>
                         <!-- /.form-group -->
@@ -267,12 +307,12 @@
                         <div class="form-group">
                             <label class="control-sidebar-subheading">
                                 Allow mail redirect
-                 
-                                <input type="checkbox" class="pull-right" checked>
+
+                        <input type="checkbox" class="pull-right" checked>
                             </label>
                             <p>
                                 Other sets of options are available
-               
+
                             </p>
                         </div>
                         <!-- /.form-group -->
@@ -280,12 +320,12 @@
                         <div class="form-group">
                             <label class="control-sidebar-subheading">
                                 Expose author name in posts
-                 
-                                <input type="checkbox" class="pull-right" checked>
+
+                        <input type="checkbox" class="pull-right" checked>
                             </label>
                             <p>
                                 Allow the user to show his name in blog posts
-               
+
                             </p>
                         </div>
                         <!-- /.form-group -->
@@ -295,8 +335,8 @@
                         <div class="form-group">
                             <label class="control-sidebar-subheading">
                                 Show me as online
-                 
-                                <input type="checkbox" class="pull-right" checked>
+
+                        <input type="checkbox" class="pull-right" checked>
                             </label>
                         </div>
                         <!-- /.form-group -->
@@ -304,8 +344,8 @@
                         <div class="form-group">
                             <label class="control-sidebar-subheading">
                                 Turn off notifications
-                 
-                                <input type="checkbox" class="pull-right">
+
+                        <input type="checkbox" class="pull-right">
                             </label>
                         </div>
                         <!-- /.form-group -->
@@ -313,8 +353,8 @@
                         <div class="form-group">
                             <label class="control-sidebar-subheading">
                                 Delete chat history
-                 
-                                <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+
+                        <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
                             </label>
                         </div>
                         <!-- /.form-group -->
@@ -348,156 +388,234 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.1/js/bootstrap-switch.js"></script>
 
-    @*<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>   *@
+    @*<script src="http://gregpike.net/demos/bootstrap-file-input/bootstrap.file-input.js"></script>   *@
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
 
     <script>
+        var table = $('#Amenities').DataTable();
 
-
-        $(function () {
-
-
-            $("#Amenities").DataTable();
-
-
-            $('.probeProbe').bootstrapSwitch();
-            $('.probeProbe').on('switchChange.bootstrapSwitch', function (event, state) {
-                document.forms["environmentForm"].submit();
-            });
-
-            $('#clear').on('click', function () {
-                $("#AddNewAmenityForm").data('bootstrapValidator').resetForm();
-            });
-
-
-
+        $(window).load(function() {
+            $("#overlay").fadeOut("slow");
         });
 
+        document.getElementById('fileInput').onchange = function() {
+            document.getElementById("FileName").value = this.value.replace(/.*[\/\\]/, '');;
+        };
 
-        $(document).ready(function () {
-
-            $(".alert").fadeTo(2000, 500).slideUp(500, function () {
-                $(".alert").alert('close');
-            });
-
-            var table = $('#Amenities').DataTable();
-            $('#Amenities tbody').on('click', 'tr', function () {
+        function ApplyPagingSortingSelectionToTable() {
+            table = $('#Amenities').DataTable();
+            $('#Amenities tbody').on('click', 'tr', function() {
                 if ($(this).hasClass('bg')) {
                     $(this).removeClass('bg');
-                }
-                else {
-                    table.$('tr.bg').removeClass('bg');
+                } else {
+                    //table.$('tr.bg').removeClass('bg');
                     $(this).addClass('bg');
                 }
             });
+        }
 
-            $('#EditAmenity').click(function () {
-                var row = $("tr.bg");
-                if (row.length > 0) {                    
-                    $('#EditAmenityContainer').show();
-                    var oFormObject = document.forms['EditAmenityForm'];
-                    oFormObject.elements["Amenity.ID"].value = row[0].cells[0].innerText;
-                    oFormObject.elements["Amenity.Airline"].value = row[0].cells[1].innerText;
-                    oFormObject.elements["Amenity.AirlineCode"].value = row[0].cells[2].innerText;
-                    oFormObject.elements["Amenity.Manufacturer"].value = row[0].cells[3].innerText;
-                    oFormObject.elements["Amenity.AircraftModel"].value = row[0].cells[4].innerText;
-                    oFormObject.elements["Amenity.AircraftType"].value = row[0].cells[5].innerText;
-                    oFormObject.elements["Amenity.IataTypeMapping"].value = row[0].cells[6].innerText;
-                    oFormObject.elements["Amenity.Cabin"].value = row[0].cells[7].innerText;
-                    oFormObject.elements["Amenity.VideoType"].value = row[0].cells[8].innerText;
-                    oFormObject.elements["Amenity.InSeatPowerType"].value = row[0].cells[9].innerText;
-                    oFormObject.elements["Amenity.WiFiAvailablilty"].value = row[0].cells[10].innerText;
-                    oFormObject.elements["Amenity.SeatType"].value = row[0].cells[11].innerText;                    
-                }
-                else
-                {                    
-                    $('#EditAmenityContainer').hide();
-                    document.getElementById("Messages").innerHTML = "<img class='image-responsive' style='width: 870;height: auto;' src=" + data + ">";
-                    @*<div class='alert alert-danger'><strong>@ViewBag.MessageAlert</strong></div>*@
+        function AddSnippner() {
+            $("#OverlayAmenityTable").addClass("snipper1");
+            $("#Amenities").addClass("fadeout");
+        }
+
+        function RemoveSpinner() {
+            $("#Amenities").removeClass("fadeout");
+            $("#OverlayAmenityTable").removeClass("snipper1");
+        }
+
+        $(function() {
+            $("#Amenities").DataTable();
+            $('.probeProbe').bootstrapSwitch();
+            $('.probeProbe').on('switchChange.bootstrapSwitch', function(event, state) {
+                AddSnippner();
+                $("#AmenityTableWarpperDiv").load('@(Url.Action("SwitchEnvironment", "Dashboard", null, Request.Url.Scheme))?isProdEnvironment=' + state, function () {                  
+                    ApplyPagingSortingSelectionToTable();
+                    RemoveSpinner();
+                });
+            });        
+
+            $('#clearAddNewAmenityForm').on('click', function () {
+                $("#AddNewAmenityForm").data('bootstrapValidator').resetForm();
+            });
+
+            $('#clearEditAmenityForm').on('click', function () {              
+                $("#EditAmenityForm").data('bootstrapValidator').resetForm();
+            });          
+
+            $('#ImportAmenitiesButton').on('click', function () {
+                var selectedFile = document.getElementById("FileName").value;
+                if (selectedFile != "") {
+                    document.forms["importForm"].submit();
+                } else {
+                    document.getElementById("Messages").innerHTML = "<div class='alert alert-warning'><strong>Warning!!</strong>  Please select csv file to import.</div>";
+                    $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+                        $(".alert").alert('close');
+                    });
                 }
             });
 
-            $('.AmenityForm')
-              .bootstrapValidator({
-                  message: 'This value is not valid',
-                  feedbackIcons: {
-                      valid: 'glyphicon glyphicon-ok',
-                      invalid: 'glyphicon glyphicon-remove',
-                      validating: 'glyphicon glyphicon-refresh'
-                  },
-                  fields: {
-                      'Amenity.AirlineCode': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The AirlineCode is required'
-                              }
-                          }
-                      },
-                      'Amenity.Airline': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The Airline is required'
-                              }
-                          }
-                      },
-                      'Amenity.Manufacture': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The Manufacture is required'
-                              }
-                          }
-                      },
-                      'Amenity.AircraftType': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The AircraftType is required'
-                              }
-                          }
-                      },
-                      'Amenity.IataTypeMapping': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The IataTypeMapping is required'
-                              }
-                          }
-                      },
-                      'Amenity.Cabin': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The Cabin is required'
-                              }
-                          }
-                      },
-                      'Amenity.VideoType': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The VideoType is required'
-                              }
-                          }
-                      },
-                      'Amenity.InSeatPowerType': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The InSeatPowerType is required'
-                              }
-                          }
-                      },
-                      'Amenity.WiFiAvailablilty': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The WiFiAvailablilty is required'
-                              }
-                          }
-                      },
-                      'Amenity.SeatType': {
-                          validators: {
-                              notEmpty: {
-                                  message: 'The SeatType is required'
-                              }
-                          }
-                      }
-                  }
-              });
         });
+
+
+            $(document).ready(function () {
+
+                $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $(".alert").alert('close');
+                });
+
+                ApplyPagingSortingSelectionToTable();
+
+                $('#EditAmenity').click(function () {
+                    var row = table.$('tr.bg');
+                    if (row.length == 1) {
+
+                        $('#EditAmenity').attr('data-target', '#EditPopup');
+
+                        var oFormObject = document.forms['EditAmenityForm'];
+                        oFormObject.elements["Amenity.ID"].value = row[0].cells[0].innerText;
+                        oFormObject.elements["Amenity.Airline"].value = row[0].cells[1].innerText;
+                        oFormObject.elements["Amenity.AirlineCode"].value = row[0].cells[2].innerText;
+                        oFormObject.elements["Amenity.Manufacturer"].value = row[0].cells[3].innerText;
+                        oFormObject.elements["Amenity.AircraftModel"].value = row[0].cells[4].innerText;
+                        oFormObject.elements["Amenity.AircraftType"].value = row[0].cells[5].innerText;
+                        oFormObject.elements["Amenity.IataTypeMapping"].value = row[0].cells[6].innerText;
+                        oFormObject.elements["Amenity.Cabin"].value = row[0].cells[7].innerText;
+                        oFormObject.elements["Amenity.VideoType"].value = row[0].cells[8].innerText;
+                        oFormObject.elements["Amenity.InSeatPowerType"].value = row[0].cells[9].innerText;
+                        oFormObject.elements["Amenity.WiFiAvailablilty"].value = row[0].cells[10].innerText;
+                        oFormObject.elements["Amenity.SeatType"].value = row[0].cells[11].innerText;
+                        oFormObject.elements["Amenity.AvailableAtArrivalAirport"].value = row[0].cells[13].innerText;
+                        oFormObject.elements["Amenity.AvailableAtDepartureAirport"].value = row[0].cells[14].innerText;
+                        oFormObject.elements["Amenity.AvailableInCountry"].value = row[0].cells[15].innerText;
+                        oFormObject.elements["Amenity.BeingUpgraded"].value = row[0].cells[16].innerText;
+
+                    } else if (row.length > 1) {
+                        $('#EditAmenity').removeAttr('data-target', '#EditPopup');
+                        document.getElementById("Messages").innerHTML = "<div class='alert alert-warning'><strong>Warning!!</strong>  Please select single amenity for edit.</div>";
+                        $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+                            $(".alert").alert('close');
+                        });
+                    } else {
+                        $('#EditAmenity').removeAttr('data-target', '#EditPopup');
+                        document.getElementById("Messages").innerHTML = "<div class='alert alert-warning'><strong>Warning!</strong>  Please select amenity for edit.</div>";
+                        $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+                            $(".alert").alert('close');
+                        });
+                    }
+                });
+
+
+                $('#DeleteAmenity').click(function () {
+                    var row = table.$('tr.bg');
+                    if (row.length > 0) {
+
+                        $('#DeleteAmenity').attr('data-target', '#DeletePopup');
+
+                        var amenityIds = "";
+
+                        for (var i = 0; i < row.length; i++) {
+                            if (i == 0) {
+                                amenityIds = row[i].cells[0].innerText;
+                            } else {
+                                amenityIds = amenityIds + ", " + row[i].cells[0].innerText;
+                            }
+                        }
+                        document.getElementById("AmenityIds").innerHTML = "Amenity Id's: <strong  style='color: red;'>" + amenityIds + "</strong>";
+                        document.getElementById("AmenityIdsHiddenField").value = amenityIds;
+                    } else {
+                        $('#DeleteAmenity').removeAttr('data-target', '#DeletePopup');
+                        document.getElementById("Messages").innerHTML = "<div class='alert alert-warning'><strong>Warning!</strong>  Please select amenity for delete.</div>";
+                        $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+                            $(".alert").alert('close');
+                        });
+                    }
+                });
+
+                $('.AmenityForm')
+                    .bootstrapValidator({
+                        message: 'This value is not valid',
+                        feedbackIcons: {
+                            valid: 'glyphicon glyphicon-ok',
+                            invalid: 'glyphicon glyphicon-remove',
+                            validating: 'glyphicon glyphicon-refresh'
+                        },
+                        fields: {
+                            'Amenity.AirlineCode': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The AirlineCode is required'
+                                    }
+                                }
+                            },
+                            'Amenity.Airline': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The Airline is required'
+                                    }
+                                }
+                            },
+                            'Amenity.Manufacture': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The Manufacture is required'
+                                    }
+                                }
+                            },
+                            'Amenity.AircraftType': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The AircraftType is required'
+                                    }
+                                }
+                            },
+                            'Amenity.IataTypeMapping': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The IataTypeMapping is required'
+                                    }
+                                }
+                            },
+                            'Amenity.Cabin': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The Cabin is required'
+                                    }
+                                }
+                            },
+                            'Amenity.VideoType': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The VideoType is required'
+                                    }
+                                }
+                            },
+                            'Amenity.InSeatPowerType': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The InSeatPowerType is required'
+                                    }
+                                }
+                            },
+                            'Amenity.WiFiAvailablilty': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The WiFiAvailablilty is required'
+                                    }
+                                }
+                            },
+                            'Amenity.SeatType': {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The SeatType is required'
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+
+            });
     </script>
 </body>
 </html>
