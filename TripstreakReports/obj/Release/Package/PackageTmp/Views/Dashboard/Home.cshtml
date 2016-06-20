@@ -1,0 +1,468 @@
+﻿@using System.Collections.Concurrent
+@using TripstreakReports.DatAccess
+@using TripstreakReports.Models
+@model TripstreakReports.Models.DashboardModel
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content-header">
+    <h1>Amenities Dashboard</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Amenities</li>
+    </ol>
+
+    <section class="content">
+
+        <div id="Messages">
+            @if (!string.IsNullOrEmpty(@ViewBag.MessageAlert))
+            {
+                string message = ViewBag.MessageAlert;
+                if (message.ToLower().StartsWith("success"))
+                {
+                <div class="alert alert-success">
+                    <strong>@ViewBag.MessageAlert</strong>
+                </div>
+                }
+                else if (message.ToLower().StartsWith("error"))
+                {
+                <div class="alert alert-danger">
+                    <strong>@ViewBag.MessageAlert</strong>
+                </div>
+                }
+            }
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header" style="padding-bottom: 0px;">
+                        <div id="env" align="center" class="make-switch ">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="padding: 0px !important;">
+                                            <h6 class="panel-title"><strong>Environment</strong></h6>
+                                        </div>
+                                        <div class="panel-body">
+                                            @Html.CheckBoxFor(m => m.IsProdEnvironemt, new {@class = "probeProbe btn-outline", @id = "environment", @data_toggle = "toggle", @data_on = "Production", @data_off = "Stage", @data_onstyle = "success", @data_offstyle = "warning"})
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="padding: 0px !important;">
+                                            <h6 class="panel-title"><strong>Export / Import Amenities</strong></h6>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-lg-8">
+                                                @using (Html.BeginForm("ImportCsv", "Dashboard", FormMethod.Post, new { @name = "importForm", enctype = "multipart/form-data" }))
+                                                {
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary btn-outline" type="button" style="width: 90px;" onclick=" $('#fileInput').click(); "><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;File</button>
+                                                            <input id="fileInput" type="file" name="..." style="display: none;" accept=".csv">
+                                                        </span>
+                                                        <input type="text" id="FileName" class="form-control" placeholder="File Name" readonly="true">
+                                                        <span class="input-group-btn">
+                                                            <button id="ImportAmenitiesButton" class="btn btn-success btn-outline" type="button" style="width: 90px;"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Import</button>
+                                                        </span>
+                                                    </div>
+                                                }
+                                            </div>
+                                            &nbsp;&nbsp;
+                                            <button type="button" class="btn btn-danger btn-outline" style="width: 90px;" id="ExportAmenity" onclick=" location.href = '@Url.Action("ExportToCsv", "Dashboard")' "><span class="fa fa-file-excel-o"></span>&nbsp;&nbsp;Export</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="padding: 0px !important;">
+                                            <h6 class="panel-title"><strong>Manage Amenities</strong></h6>
+                                        </div>
+                                        <div class="panel-body" align="center">
+                                            <div>                                                
+                                                <button type="button" class="btn btn-success btn-outline" style="width: 90px;" id="AddAmenity" data-toggle="modal"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;&nbsp;Create </button>
+                                                &nbsp;&nbsp;
+                                                <button type="button" class="btn btn-warning btn-outline" style="width: 90px;" id="CloneAmenity" data-toggle="modal"><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;Clone </button>
+                                                &nbsp;&nbsp;
+                                                <button type="button" class="btn btn-info btn-outline" style="width: 90px;" id="EditAmenity" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Edit </button>
+                                                &nbsp;&nbsp;
+                                                <button type="button" class="btn btn-danger btn-outline" style="width: 90px;" id="DeleteAmenity" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete </button>
+                                                &nbsp;&nbsp;
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="AmenityTableDiv">
+                        <div id="OverlayAmenityTable">
+                            <img id="" src="~/Images/AmenityTableSpinner.gif" /><br />
+                        </div>
+                        <div id="AmenityTableWarpperDiv" class="box-body" style="overflow-x: inherit;">
+                            @Html.Partial("_AmenitiesTablePartial")
+                        </div>
+
+                    </div>
+
+                    <!--Add popup Div-->
+                    <div class="container">
+                        <div class="modal fade" id="AddPopup" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content" style="box-shadow: 0 5px 15px rgba(0, 0, 0, .5); border-radius: 6px;">
+                                    <div id="AddNewPopup" class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading clearfix">
+                                                        <i class="icon-calendar"></i>
+                                                        <h3 class="panel-title" align="left"><b>Add New Amenity</b>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </h3>
+                                                    </div>
+
+                                                    @using (Html.BeginForm("AddNewAmenity", "Dashboard", FormMethod.Post, new { @class = "AmenityForm", @id = "AddNewAmenityForm" }))
+                                                    {
+                                                        <div class="panel-body">
+                                                            <div class="row">
+                                                                <div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.Airline, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.Airline, new { @class = "form-control", autofocus = "autofocus" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AirlineCode, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.AirlineCode, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AircraftType, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.AircraftType, new SelectList(new List<string>() { "", "Narrowbody", "Regional Jet", "Turboprop", "Widebody" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.IataTypeMapping, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.IataTypeMapping, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.Cabin, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.Cabin, new SelectList(new List<string>() { "", "Business", "Economy", "First", "Premium Economy" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.VideoType, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.VideoType, new SelectList(new List<string>() { "", "AVOD", "None", "Overhead", "Personal Device", "Seatback" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.InSeatPowerType, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.InSeatPowerType, new SelectList(new List<string>() { "", "All Seats", "None", "Some Seats" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.WiFiAvailablilty, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.WiFiAvailablilty, new SelectList(new List<string>() { "", "Yes", "No", "Some" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.SeatType, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.SeatType, new SelectList(new List<string>() { "", "Angle Lie Flat", "Flat Bed", "Recliner", "Standard", "Suite" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AvailableAtArrivalAirport, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.AvailableAtArrivalAirport, new SelectList(new List<string>() { "", "Yes", "No" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AvailableAtDepartureAirport, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.AvailableAtDepartureAirport, new SelectList(new List<string>() { "", "Yes", "No" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AvailableInCountry, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.AvailableInCountry, new SelectList(new List<string>() { "", "Yes", "No" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.BeingUpgraded, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.BeingUpgraded, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.Manufacturer, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.Manufacturer, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AircraftModel, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.AircraftModel, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3" style="padding-top: 29px;">
+                                                                            @* <input type="checkbox" class="flat-red">*@
+                                                                            @Html.CheckBoxFor(m => m.AddAmenityToOtherEnv, new { @class = "flat-red", @id = "AddToOtherEnv"})
+                                                                            &nbsp;&nbsp;Add to <b id="CopyToEnvironemt" style="color: red;">Prod</b> Env.
+                                                                        </div>                                                                     
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-footer" align="right">
+                                                            <button type="submit" class="btn btn-success btn-outline"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;Create</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <button type="reset" id="clearAddNewAmenityForm" class="btn btn-warning btn-outline"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <button type="button" class="btn btn-danger btn-outline" data-dismiss="modal"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Close</button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Add popup Div End-->
+
+                    <!--Edit popup Div-->
+                    <div class="container" id="EditAmenityContainer">
+                        <div class="modal fade" id="EditPopup" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content" style="box-shadow: 0 5px 15px rgba(0, 0, 0, .5); border-radius: 6px;">
+                                    <div id="EditNewPopup" class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div id="EditAmenityPopupDiv" class="panel panel-default">
+                                                    <div class="panel-heading clearfix">
+                                                        <i class="icon-calendar"></i>
+                                                        <h3 class="panel-title" align="left"><b>Update Amenity</b>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </h3>
+                                                    </div>
+
+                                                    @using (Html.BeginForm("UpdateAmenity", "Dashboard", FormMethod.Post, new { @class = "AmenityForm", @id = "EditAmenityForm" }))
+                                                    {
+                                                        <div class="panel-body" id="EditAmenitypanelBody">
+                                                            <div class="row">
+                                                                <div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.ID, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.ID, new { @class = "form-control", @readonly = true })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.Airline, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.Airline, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AirlineCode, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.AirlineCode, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AircraftType, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.AircraftType, new SelectList(new List<string>() { "", "Narrowbody", "Regional Jet", "Turboprop", "Widebody" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.IataTypeMapping, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.IataTypeMapping, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.Cabin, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.Cabin, new SelectList(new List<string>() { "", "Business", "Economy", "First", "Premium Economy" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.VideoType, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.VideoType, new SelectList(new List<string>() { "", "AVOD", "None", "Overhead", "Personal Device", "Seatback" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.InSeatPowerType, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.InSeatPowerType, new SelectList(new List<string>() { "", "All Seats", "None", "Some Seats" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.WiFiAvailablilty, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.WiFiAvailablilty, new SelectList(new List<string>() { "", "Yes", "No" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.SeatType, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.SeatType, new SelectList(new List<string>() { "", "Angle Lie Flat", "Flat Bed", "Recliner", "Standard", "Suite" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AvailableAtArrivalAirport, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.AvailableAtArrivalAirport, new SelectList(new List<string>() { "", "Yes", "No" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AvailableAtDepartureAirport, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.AvailableAtDepartureAirport, new SelectList(new List<string>() { "", "Yes", "No" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AvailableInCountry, new { @class = "control-label" })
+                                                                            @Html.DropDownListFor(m => m.Amenity.AvailableInCountry, new SelectList(new List<string>() { "", "Yes", "No" }), new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.BeingUpgraded, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.BeingUpgraded, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.Manufacturer, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.Manufacturer, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3">
+                                                                            @Html.LabelFor(m => m.Amenity.AircraftModel, new { @class = "control-label" })
+                                                                            @Html.TextBoxFor(m => m.Amenity.AircraftModel, new { @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-footer" align="right">
+                                                            <button type="submit" class="btn btn-success btn-outline"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;Update</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <button type="reset" id="clearEditAmenityForm" class="btn btn-warning btn-outline"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <button type="button" class="btn btn-danger btn-outline" data-dismiss="modal"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Close</button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Edit popup Div End-->
+
+
+
+                    <!--Delete popup Div-->
+                    <div class="container" id="DeleteAmenityContainer">
+                        <div class="modal fade" id="DeletePopup" role="dialog">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content" style="box-shadow: 0 5px 15px rgba(0, 0, 0, .5); border-radius: 6px;">
+                                    <div id="DeleteNewPopup" class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div id="DeleteAmenityPopupDiv" class="panel panel-default">
+                                                    <div class="panel-heading clearfix">
+                                                        <i class="icon-calendar"></i>
+                                                        <h3 class="panel-title" align="left"><b>Confirm Delete</b>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </h3>
+                                                    </div>
+                                                    @using (Html.BeginForm("DeleteAmenities", "Dashboard", FormMethod.Post))
+                                                    {
+                                                        <div class="panel-body" id="DeleteAmenityPanelBody">
+                                                            <p>You are about to delete below Amenities.</p>
+                                                            <p id="AmenityIds"></p>
+                                                            <p>Do you want to proceed?</p>
+                                                            @Html.HiddenFor(m => m.AmenityIds, new { @id = "AmenityIdsHiddenField", @value = "test" })
+                                                        </div>
+                                                        <div class="panel-footer" align="right">
+                                                            <button type="submit" class="btn btn-danger btn-outline"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                             <button type="button" class="btn btn-default btn-outline" data-dismiss="modal"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Cancel</button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Delete popup Div End-->
+
+                </div>
+
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- /.row -->
+    </section>
+</section>
+

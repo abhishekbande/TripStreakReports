@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="apis.tripstreak.com/v1.0/TripstreakReports" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Git\\TripstreakReports_GitLab\\TripstreakReports\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^D:\\Git\\TripstreakReports_GitLab\\TripstreakReports\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="DefaultConnection_ConnectionString" tags="">
+    <parameterEntry kind="XmlFile" scope="D:\\Git\\TripstreakReports_GitLab\\TripstreakReports\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="ProdCommonContentEntities-Web.config Connection String" description="" value="metadata=res://*/DatAccess.CommonContents.csdl|res://*/DatAccess.CommonContents.ssdl|res://*/DatAccess.CommonContents.msl;provider=MySql.Data.MySqlClient;provider connection string=&quot;server=prod-mysql.cxie0yoa1syq.us-west-2.rds.amazonaws.com;user id=AppUser;password=tr1pstr3ak;database=commoncontent&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="D:\\Git\\TripstreakReports_GitLab\\TripstreakReports\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ProdCommonContentEntities']/@connectionString" />
+  </parameter>
+  <parameter name="StageCommonContentEntities-Web.config Connection String" description="" value="metadata=res://*/DatAccess.CommonContents.csdl|res://*/DatAccess.CommonContents.ssdl|res://*/DatAccess.CommonContents.msl;provider=MySql.Data.MySqlClient;provider connection string=&quot;server=prod-mysql.cxie0yoa1syq.us-west-2.rds.amazonaws.com;user id=AppUser;password=tr1pstr3ak;database=scommoncontent&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="D:\\Git\\TripstreakReports_GitLab\\TripstreakReports\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StageCommonContentEntities']/@connectionString" />
+  </parameter>
+  <parameter name="TripstreakReports.DatAccess.CommonContentEntities-Web.config Connection String" description="TripstreakReports.DatAccess.CommonContentEntities Connection String used in web.config by the application to access the database." value="TripstreakReports.DatAccess.CommonContentEntities_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Git\\TripstreakReports_GitLab\\TripstreakReports\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='TripstreakReports.DatAccess.CommonContentEntities']/@connectionString" />
+  </parameter>
+</parameters>

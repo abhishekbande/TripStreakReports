@@ -67,13 +67,7 @@
         #OverlayAmenityTable {
             display: none;
         }
-
-
-
-
-
-
-
+        
         .btn-outline {
     background-color: transparent;
     color: inherit;
@@ -276,9 +270,7 @@
             $("#overlay").fadeOut("slow");
         });
 
-        document.getElementById('fileInput').onchange = function() {
-            document.getElementById("FileName").value = this.value.replace(/.*[\/\\]/, '');;
-        };
+       
 
         function ApplyPagingSortingSelectionToTable() {
             table = $('#Amenities').DataTable();
@@ -399,8 +391,12 @@
                 document.getElementById("Messages").innerHTML = "<div class='alert alert-warning'><strong>Warning!</strong>  Please select amenity for edit.</div>";
                 FadeTheAlertMessage();
             }
-        });
+        });        
 
+        $('#PreconfiguredReportsSubmitButton').click(function () {           
+            document.getElementById("Messages").innerHTML = "<div class='alert alert-warning'><strong>Warning!</strong>  Please select report to download.</div>";
+            FadeTheAlertMessage();
+        });
 
         $('#CloneAmenity').click(function () {
             var row = table.$('tr.bg');

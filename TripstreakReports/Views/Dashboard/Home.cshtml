@@ -116,7 +116,6 @@
                         <div id="AmenityTableWarpperDiv" class="box-body table-responsive" style="overflow-x: inherit;">
                             @Html.Partial("_AmenitiesTablePartial")
                         </div>
-
                     </div>
 
                     <!--Add popup Div-->
@@ -261,7 +260,6 @@
                         </div>
                     </div>
                     <!--Add popup Div End-->
-
 
 
                     <!--Edit popup Div-->
@@ -414,7 +412,6 @@
                     <!--Add popup Div End-->
 
 
-
                     <!--Edit popup Div-->
                     <div class="container" id="DeleteAmenityContainer">
                         <div class="modal fade" id="DeletePopup" role="dialog">
@@ -463,4 +460,9 @@
         <!-- /.row -->
     </section>
 </section>
+<script>
+    document.getElementById('fileInput').onchange = function () {
+        document.getElementById("FileName").value = this.value.replace(/.*[\/\\]/, '');;
+    };
 
+</script>

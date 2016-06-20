@@ -1047,3 +1047,5 @@ D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\System.Xml.Linq.dll
 D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\System.Net.Http.Formatting.xml
 D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\System.Web.Http.xml
 D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\System.Web.Http.WebHost.xml
+D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\bin\Images\favicon.ico
+D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\favicon.ico
