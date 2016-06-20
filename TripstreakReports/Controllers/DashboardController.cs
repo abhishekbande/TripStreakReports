@@ -91,23 +91,60 @@ namespace TripstreakReports.Controllers
         {
             if (model != null)
             {
-                try
+                bool otherEnvironment = false;
+
+                bool currentEnvironment = this.AddAmenity(model);
+
+                if (model.AddAmenityToOtherEnv)
                 {
-                    ChangeDatabase(_isProdEnvironment);
+                    this.ChangeDatabase(!_isProdEnvironment);
 
-                    _commonContent.airamenities.Add(model.Amenity);
+                    otherEnvironment = this.AddAmenity(model);
 
-                    _commonContent.SaveChanges();
-
-                    TempData["Message"] = "Success! Amenity added successfully.";     
+                    this.ChangeDatabase(_isProdEnvironment);
                 }
-                catch (Exception exception)
-                {
-                    TempData["Message"] = "Error! "+exception.Message;                         
-                }                
-            }
 
-            return RedirectToAction("Home", "Dashboard");
+                if (model.AddAmenityToOtherEnv)
+                {
+                    if (currentEnvironment && otherEnvironment)
+                    {
+                       TempData["Message"] = "Success! Amenity added successfully on Stage and Prod Environment.";
+                    }
+                    else if (currentEnvironment)
+                    {
+                        TempData["Message"] = "Success! Amenity added successfully on " +
+                                              (_isProdEnvironment ? "Prod" : "Stage") + "Environment, but failed on " +
+                                              ((!_isProdEnvironment) ? "Prod" : "Stage");
+                    }
+                    else if (otherEnvironment)
+                    {
+                        TempData["Message"] = "Success! Amenity added successfully on " +
+                                              ((!_isProdEnvironment) ? "Prod" : "Stage") + "Environment, but failed on " +
+                                              (_isProdEnvironment ? "Prod" : "Stage");
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = "Success! Amenity added successfully.";
+                }
+            }
+            return base.RedirectToAction("Home", "Dashboard");
+        }
+
+        private bool AddAmenity(DashboardModel model)
+        {
+            bool result;
+            try
+            {
+                _commonContent.airamenities.Add(model.Amenity);
+                _commonContent.SaveChanges();
+                result = true;
+            }
+            catch
+            {
+                result = false;
+            }
+            return result;
         }
 
         [HttpPost]

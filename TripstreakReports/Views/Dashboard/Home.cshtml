@@ -9,12 +9,8 @@
 }
 
 
-<!-- Content Wrapper. Contains page content -->
-
-<!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>Amenities Dashboard            
-          </h1>
+    <h1>Amenities Dashboard</h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Amenities</li>
@@ -47,16 +43,17 @@
                     <div class="box-header" style="padding-bottom: 0px;">
                         <div id="env" align="center" class="make-switch ">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding: 0px !important;">
                                             <h6 class="panel-title"><strong>Environment</strong></h6>
                                         </div>
                                         <div class="panel-body">
-                                            @Html.CheckBoxFor(m => m.IsProdEnvironemt, new { @class = "probeProbe", @id = "environment", @data_toggle = "toggle", @data_on = "Production", @data_off = "Stage", @data_onstyle = "success", @data_offstyle = "warning" })
+                                            @Html.CheckBoxFor(m => m.IsProdEnvironemt, new {@class = "probeProbe btn-outline", @id = "environment", @data_toggle = "toggle", @data_on = "Production", @data_off = "Stage", @data_onstyle = "success", @data_offstyle = "warning"})
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-5">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding: 0px !important;">
@@ -68,39 +65,38 @@
                                                 {
                                                     <div class="input-group">
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-primary" type="button" style="width: 90px;" onclick=" $('#fileInput').click(); "><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;File</button>
+                                                            <button class="btn btn-primary btn-outline" type="button" style="width: 90px;" onclick=" $('#fileInput').click(); "><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;File</button>
                                                             <input id="fileInput" type="file" name="..." style="display: none;" accept=".csv">
                                                         </span>
                                                         <input type="text" id="FileName" class="form-control" placeholder="File Name" readonly="true">
                                                         <span class="input-group-btn">
-                                                            <button id="ImportAmenitiesButton" class="btn btn-success" type="button" style="width: 90px;"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Import</button>
+                                                            <button id="ImportAmenitiesButton" class="btn btn-success btn-outline" type="button" style="width: 90px;"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Import</button>
                                                         </span>
                                                     </div>
                                                 }
                                             </div>
-                                            <div class="col-lg-2">
-                                                <button type="button" class="btn btn-danger" style="width: 90px;" id="ExportAmenity" onclick=" location.href = '@Url.Action("ExportToCsv", "Dashboard")' "><span class="fa fa-file-excel-o"></span>&nbsp;&nbsp;Export</button>
-                                            </div>
+                                            &nbsp;&nbsp;
+                                            <button type="button" class="btn btn-danger btn-outline" style="width: 90px;" id="ExportAmenity" onclick=" location.href = '@Url.Action("ExportToCsv", "Dashboard")' "><span class="fa fa-file-excel-o"></span>&nbsp;&nbsp;Export</button>
+
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style="padding: 0px !important;">
                                             <h6 class="panel-title"><strong>Manage Amenities</strong></h6>
                                         </div>
                                         <div class="panel-body" align="center">
-                                            <div>
-                                                <div class="col-lg-4">
-                                                    <button type="button" class="btn btn-success" style="width: 90px;" data-toggle="modal" data-target="#AddPopup"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;&nbsp;Create </button>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <button type="button" class="btn btn-info" style="width: 90px;" id="EditAmenity" data-toggle="modal"><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;Edit </button>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <button type="button" class="btn btn-danger" style="width: 90px;" id="DeleteAmenity" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete </button>
-                                                </div>
+                                            <div>                                                
+                                                <button type="button" class="btn btn-success btn-outline" style="width: 90px;" id="AddAmenity" data-toggle="modal"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;&nbsp;Create </button>
+                                                &nbsp;&nbsp;
+                                                <button type="button" class="btn btn-warning btn-outline" style="width: 90px;" id="CloneAmenity" data-toggle="modal"><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;Clone </button>
+                                                &nbsp;&nbsp;
+                                                <button type="button" class="btn btn-info btn-outline" style="width: 90px;" id="EditAmenity" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Edit </button>
+                                                &nbsp;&nbsp;
+                                                <button type="button" class="btn btn-danger btn-outline" style="width: 90px;" id="DeleteAmenity" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete </button>
+                                                &nbsp;&nbsp;
                                             </div>
                                         </div>
                                     </div>
@@ -111,11 +107,12 @@
 
                     <div id="AmenityTableDiv">
                         <div id="OverlayAmenityTable">
-                            <img id="" src="/Images/AmenityTableSpinner.gif" /><br />
+                            <img id="" src="~/Images/AmenityTableSpinner.gif" /><br />
                         </div>
-                        <div id="AmenityTableWarpperDiv" class="box-body table-responsive" style="overflow-x: inherit;">
+                        <div id="AmenityTableWarpperDiv" class="box-body" style="overflow-x: inherit;">
                             @Html.Partial("_AmenitiesTablePartial")
                         </div>
+
                     </div>
 
                     <!--Add popup Div-->
@@ -242,13 +239,21 @@
                                                                             @Html.TextBoxFor(m => m.Amenity.AircraftModel, new { @class = "form-control" })
                                                                         </div>
                                                                     </div>
+
+                                                                    <div class="form-group">
+                                                                        <div class="col-xs-3" style="padding-top: 29px;">
+                                                                            @* <input type="checkbox" class="flat-red">*@
+                                                                            @Html.CheckBoxFor(m => m.AddAmenityToOtherEnv, new { @class = "flat-red", @id = "AddToOtherEnv"})
+                                                                            &nbsp;&nbsp;Add to <b id="CopyToEnvironemt" style="color: red;">Prod</b> Env.
+                                                                        </div>                                                                     
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="panel-footer" align="right">
-                                                            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;Create</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <button type="reset" id="clearAddNewAmenityForm" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Close</button>
+                                                            <button type="submit" class="btn btn-success btn-outline"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;Create</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <button type="reset" id="clearAddNewAmenityForm" class="btn btn-warning btn-outline"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <button type="button" class="btn btn-danger btn-outline" data-dismiss="modal"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Close</button>
                                                         </div>
                                                     }
                                                 </div>
@@ -260,7 +265,6 @@
                         </div>
                     </div>
                     <!--Add popup Div End-->
-
 
                     <!--Edit popup Div-->
                     <div class="container" id="EditAmenityContainer">
@@ -396,9 +400,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-footer" align="right">
-                                                            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;Update</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <button type="reset" id="clearEditAmenityForm" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Close</button>
+                                                            <button type="submit" class="btn btn-success btn-outline"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;Update</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <button type="reset" id="clearEditAmenityForm" class="btn btn-warning btn-outline"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Clear</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <button type="button" class="btn btn-danger btn-outline" data-dismiss="modal"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Close</button>
                                                         </div>
                                                     }
                                                 </div>
@@ -409,10 +413,11 @@
                             </div>
                         </div>
                     </div>
-                    <!--Add popup Div End-->
+                    <!--Edit popup Div End-->
 
 
-                    <!--Edit popup Div-->
+
+                    <!--Delete popup Div-->
                     <div class="container" id="DeleteAmenityContainer">
                         <div class="modal fade" id="DeletePopup" role="dialog">
                             <div class="modal-dialog modal-md">
@@ -436,8 +441,8 @@
                                                             @Html.HiddenFor(m => m.AmenityIds, new { @id = "AmenityIdsHiddenField", @value = "test" })
                                                         </div>
                                                         <div class="panel-footer" align="right">
-                                                            <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                             <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Cancel</button>
+                                                            <button type="submit" class="btn btn-danger btn-outline"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                             <button type="button" class="btn btn-default btn-outline" data-dismiss="modal"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Cancel</button>
                                                         </div>
                                                     }
                                                 </div>
@@ -460,9 +465,4 @@
         <!-- /.row -->
     </section>
 </section>
-<script>
-    document.getElementById('fileInput').onchange = function () {
-        document.getElementById("FileName").value = this.value.replace(/.*[\/\\]/, '');;
-    };
 
-</script>

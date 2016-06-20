@@ -67,7 +67,13 @@
         #OverlayAmenityTable {
             display: none;
         }
-        
+
+
+
+
+
+
+
         .btn-outline {
     background-color: transparent;
     color: inherit;
@@ -156,7 +162,8 @@
                                 <li class="user-footer">
                                     <div class="pull-left">
                                     </div>
-                                    <div class="pull-right">                                        
+                                    <div class="pull-right">
+                                        @*<a href="@Url.Action("LogOut", "Account")" class="btn btn-primary btn-outline"><span class="glyphicon glyphicon-off">Sign out</span></a>*@
                                         <button type="button" class="btn btn-primary btn-outline" style="width: 90px;" onclick="location.href='@Url.Action("LogOut", "Account")'"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Sign out</button>
                                     </div>
                                 </li>
@@ -216,7 +223,7 @@
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Create the tabs -->
             <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-                
+                <li><a href="#control-sidebar-home-tab" ><i class="fa fa-home"></i></a></li>
                 <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
             </ul>
             <!-- Tab panes -->
@@ -270,7 +277,9 @@
             $("#overlay").fadeOut("slow");
         });
 
-       
+        document.getElementById('fileInput').onchange = function() {
+            document.getElementById("FileName").value = this.value.replace(/.*[\/\\]/, '');;
+        };
 
         function ApplyPagingSortingSelectionToTable() {
             table = $('#Amenities').DataTable();
@@ -391,12 +400,8 @@
                 document.getElementById("Messages").innerHTML = "<div class='alert alert-warning'><strong>Warning!</strong>  Please select amenity for edit.</div>";
                 FadeTheAlertMessage();
             }
-        });        
-
-        $('#PreconfiguredReportsSubmitButton').click(function () {           
-            document.getElementById("Messages").innerHTML = "<div class='alert alert-warning'><strong>Warning!</strong>  Please select report to download.</div>";
-            FadeTheAlertMessage();
         });
+
 
         $('#CloneAmenity').click(function () {
             var row = table.$('tr.bg');
