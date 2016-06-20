@@ -1,0 +1,129 @@
+﻿@model TripstreakReports.Models.MixpanelModel
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content-header">
+    <h1>Mixpanel Dashboard</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Mixpanel</li>
+    </ol>
+
+    <section class="content">
+
+        <div id="Messages">
+            @if (!string.IsNullOrEmpty(@ViewBag.MessageAlert))
+            {
+                string message = ViewBag.MessageAlert;
+                if (message.ToLower().StartsWith("success"))
+                {
+                <div class="alert alert-success">
+                    <strong>@ViewBag.MessageAlert</strong>
+                </div>
+                }
+                else if (message.ToLower().StartsWith("error"))
+                {
+                <div class="alert alert-danger">
+                    <strong>@ViewBag.MessageAlert</strong>
+                </div>
+                }
+            }
+        </div>
+
+
+
+        <div id="env" class="make-switch " align="center">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="padding: 0px !important;">
+                            <h6 class="panel-title"><strong>Environment</strong></h6>
+                        </div>
+                        <div class="panel-body">
+                            @Html.CheckBoxFor(m => m.IsProdEnvironemt, new { @class = "probeProbe", @id = "environment", @data_toggle = "toggle", @data_on = "Production", @data_off = "Stage", @data_onstyle = "success", @data_offstyle = "warning" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="box box-success">
+                <div class="box-header">
+                  <h3 class="box-title">iCheck - Checkbox &amp; Radio Inputs</h3>
+                </div>
+          
+
+                  <!-- radio -->
+                  <div class="form-group">
+                    <label>
+                      <input type="radio" name="r3" class="flat-red" checked>
+                    </label>
+                    <label>
+                      <input type="radio" name="r3" class="flat-red">
+                    </label>
+                    <label>
+                      <input type="radio" name="r3" class="flat-red" disabled>
+                      Flat green skin radio
+                    </label>
+                  </div>
+
+
+                    <div class="form-group">
+                    <label>Date and time range:</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-clock-o"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right active" id="reservationtime">
+                    </div><!-- /.input group -->
+                  </div>
+                    <div class="box-footer">
+                  Many more skins available. <a href="http://fronteed.com/iCheck/">Documentation</a>
+                </div>
+              </div><!-- /.box -->
+            </div>
+
+
+
+            <div class="col-xs-4">
+                <div class="box box-danger">
+                    <div class="box-header with-border" style="padding-bottom: 0px;">
+                        <h3 class="box-title">Segment Reports</h3>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-4">
+                <div class="box box-info">
+                    <div class="box-header with-border" style="padding-bottom: 0px;">
+                        <h3 class="box-title">Custom Reports</h3>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                    </div>
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- /.row -->
+    </section>
+</section>

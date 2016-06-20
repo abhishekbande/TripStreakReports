@@ -2266,12 +2266,12 @@ a:focus {
   background: transparent;
   color: #fff;
 }
-.btn-outline:hover,
+/*.btn-outline:hover,
 .btn-outline:focus,
 .btn-outline:active {
   color: rgba(255, 255, 255, 0.7);
   border-color: rgba(255, 255, 255, 0.7);
-}
+}*/
 .btn-link {
   -webkit-box-shadow: none;
   box-shadow: none;

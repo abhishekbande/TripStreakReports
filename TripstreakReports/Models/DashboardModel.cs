@@ -15,5 +15,7 @@ namespace TripstreakReports.Models
         public airamenity Amenity { get; set; }
 
         public string AmenityIds { get; set; }
+
+        public bool AddAmenityToOtherEnv { get; set; }
     }
 }

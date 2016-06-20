@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Transactions;
-using System.Web;
+﻿using System.Configuration;
 using System.Web.Mvc;
-using System.Web.Security;
-using DotNetOpenAuth.AspNet;
-using Microsoft.Web.WebPages.OAuth;
-using WebMatrix.WebData;
-using TripstreakReports.Filters;
 using TripstreakReports.Models;
 
 namespace TripstreakReports.Controllers
@@ -34,6 +24,8 @@ namespace TripstreakReports.Controllers
 
                 if (model.Password.Equals(password))
                 {
+                    Session["IsUserLoggedIn"] = "True";
+
                     return RedirectToAction("Home", "Dashboard");
                 }
             }
@@ -42,6 +34,13 @@ namespace TripstreakReports.Controllers
 
             return View(model);
         }
-
+        
+        public ActionResult LogOut()
+        {            
+            Session.Abandon();
+            Session.Clear();
+            Session.RemoveAll();        
+            return RedirectToAction("Login", "Account");
+        }
     }
 }
