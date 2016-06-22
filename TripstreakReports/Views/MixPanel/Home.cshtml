@@ -45,7 +45,7 @@
                             <h6 class="panel-title"><strong>Environment</strong></h6>
                         </div>
                         <div class="panel-body">
-                            @Html.CheckBoxFor(m => m.IsProdEnvironemt, new { @class = "probeProbe", @id = "environment", @data_toggle = "toggle", @data_on = "Production", @data_off = "Stage", @data_onstyle = "success", @data_offstyle = "warning" })
+                            @Html.CheckBoxFor(m => m.IsProdEnvironemt, new { @class = "MixpanelProbe", @id = "environment", @data_toggle = "toggle", @data_on = "Production", @data_off = "Stage", @data_onstyle = "success", @data_offstyle = "warning" })
                         </div>
                     </div>
                 </div>
@@ -53,54 +53,12 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-xs-4">
-                <div class="box box-primary box-solid">
-                    <div class="box-header">
-                        <h3 class="box-title">Preconfigured Reports</h3>
-                         <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                  </div>
-                    </div>
 
-                    <div class="box-body">
-                        <div align=""><b>Select the report to download</b></div>
-                        </br>
-                       
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <div class="">
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                    </label>
-                                    User FFP Program Preference Rank.
-                                </div>
-                                <div>
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                    </label>
-                                    Number of user actually input FFP/rank miles as #1.
-                                </div>
-                                <div>
-                                    <label>
-                                        <input type="radio" name="r3" class="flat-red">
-                                    </label>
-                                    Top 10 FFP Programs of all users.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="box-footer">
-                        <div align="center">
-                            <button type="submit" class="btn btn-primary" id="PreconfiguredReportsSubmitButton"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;&nbsp;Download Report</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.box -->
-            </div>
-
+        <div id="_MixpanelReportPanelsDiv">
+            @Html.Partial("_MixpanelReportPanels")
         </div>
+
         <!-- /.col -->
 
         <!-- /.row -->

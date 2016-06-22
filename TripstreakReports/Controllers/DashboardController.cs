@@ -112,20 +112,16 @@ namespace TripstreakReports.Controllers
                     }
                     else if (currentEnvironment)
                     {
-                        TempData["Message"] = "Success! Amenity added successfully on " +
-                                              (_isProdEnvironment ? "Prod" : "Stage") + "Environment, but failed on " +
-                                              ((!_isProdEnvironment) ? "Prod" : "Stage");
+                        TempData["Message"] = "Success! Amenity added successfully on " + (_isProdEnvironment ? "Prod" : "Stage") + "Environment, but failed on " + ((!_isProdEnvironment) ? "Prod" : "Stage");
                     }
                     else if (otherEnvironment)
                     {
-                        TempData["Message"] = "Success! Amenity added successfully on " +
-                                              ((!_isProdEnvironment) ? "Prod" : "Stage") + "Environment, but failed on " +
-                                              (_isProdEnvironment ? "Prod" : "Stage");
+                        TempData["Message"] = "Success! Amenity added successfully on " + ((!_isProdEnvironment) ? "Prod" : "Stage") + "Environment, but failed on " + (_isProdEnvironment ? "Prod" : "Stage");
                     }
                 }
                 else
                 {
-                    TempData["Message"] = "Success! Amenity added successfully.";
+                    TempData["Message"] = "Success! Amenity added on " + (_isProdEnvironment ? "Prod" : "Stage") + "Environment successfully.";
                 }
             }
             return base.RedirectToAction("Home", "Dashboard");

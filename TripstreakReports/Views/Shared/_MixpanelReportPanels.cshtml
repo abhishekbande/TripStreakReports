@@ -1,0 +1,110 @@
+﻿@model TripstreakReports.Models.MixpanelModel
+
+<div class="row">
+    @using (Html.BeginForm("DownloadPreconfiguredReport", "Mixpanel", FormMethod.Post, new { @name = "DownloadPreconfiguredReportForm" }))
+    {
+        <div class="col-xs-4">
+            <div class="box box-primary box-solid">
+
+                <div class="box-header">
+                    <h3 class="box-title">Preconfigured Reports</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body" style="height: 136px;">
+                    <div align="">
+                        <b class="text-primary">Select the report to download</b>
+                    </div>
+                    <br />
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <div class="">
+                                <label>
+                                    @Html.RadioButtonFor(m => m.PreconfiguredReports, "UserFfpRanks", new { @class = "flat-red" })
+                                </label>
+                                <span class="text-primary">User FFP Program Preference Rank.</span>
+                            </div>
+                            <div>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.PreconfiguredReports, "UserCountWithFfpRank1", new { @class = "flat-red" })
+                                </label>
+                                <span class="text-primary">Number of user actually input FFP/rank miles as #1.</span>
+                            </div>
+                            <div>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.PreconfiguredReports, "Top10FfpPrograms", new { @class = "flat-red" })
+                                </label>
+                                <span class="text-primary">Top 10 FFP Programs of all users.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="PreconfiguredReportOverlay" class="overlay DontDisplay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                <div class="box-footer">
+                    <div align="center">
+                        <button type="button" class="btn btn-primary" id="PreconfiguredReportsSubmitButton"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;&nbsp;Download Report</button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box -->
+
+        </div>
+    }
+
+    @using (Html.BeginForm("DownloadSegmentReport", "Mixpanel", FormMethod.Post, new { @name = "DownloadSegmentReportForm" }))
+    {
+        <div class="col-xs-4">
+            <div class="box box-black box-solid">
+
+                <div class="box-header">
+                    <h3 class="box-title">Segment Reports</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body" style="height: 136px;">
+                    <div align="">
+                        <b class="text-black">Select the DateTime range</b>
+                    </div>
+                    <br />
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label class="text-black">Date and time range</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                                @Html.TextBoxFor(m => m.SegmentReports.DateTimeRange, new { @class = "form-control pull-right", id = "reservationtime" })
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <div class="form-group">
+                            @Html.CheckBoxFor(m => m.SegmentReports.IncludeUserInformation, new {@class = "flat-red", @id = "SegmentReportsIncludeUserInfo"})
+                            <span class="text-black"> Include User Information</span>
+                        </div>
+                        <!-- /.form group -->
+                    </div>
+                </div>
+
+                @*<div id="PreconfiguredReportOverlay" class="overlay DontDisplay">
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>*@
+                <div class="box-footer">
+                    <div align="center">
+                        <button type="button" class="btn btn-black" id="SegmentReportSubmitButton" style="color: white;"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;&nbsp;Download Report</button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box -->
+
+        </div>
+    }
+</div>
+

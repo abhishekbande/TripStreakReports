@@ -49,7 +49,7 @@
                                             <h6 class="panel-title"><strong>Environment</strong></h6>
                                         </div>
                                         <div class="panel-body">
-                                            @Html.CheckBoxFor(m => m.IsProdEnvironemt, new {@class = "probeProbe btn-outline", @id = "environment", @data_toggle = "toggle", @data_on = "Production", @data_off = "Stage", @data_onstyle = "success", @data_offstyle = "warning"})
+                                            @Html.CheckBoxFor(m => m.IsProdEnvironemt, new {@class = "AmenitiesProbe btn-outline", @id = "environment", @data_toggle = "toggle", @data_on = "Production", @data_off = "Stage", @data_onstyle = "success", @data_offstyle = "warning"})
                                         </div>
                                     </div>
                                 </div>
@@ -106,8 +106,8 @@
                     </div>
 
                     <div id="AmenityTableDiv">
-                        <div id="OverlayAmenityTable">
-                            <img id="" src="~/Images/AmenityTableSpinner.gif" /><br />
+                        <div id="OverlayAmenityTable" class="">
+                            <img id="" src="~/Images/AmenityTableSpinner.gif"/><br/>                              
                         </div>
                         <div id="AmenityTableWarpperDiv" class="box-body" style="overflow-x: inherit;">
                             @Html.Partial("_AmenitiesTablePartial")
@@ -466,3 +466,9 @@
     </section>
 </section>
 
+<script>
+    document.getElementById('fileInput').onchange = function () {
+        document.getElementById("FileName").value = this.value.replace(/.*[\/\\]/, '');;
+    };
+  
+</script>

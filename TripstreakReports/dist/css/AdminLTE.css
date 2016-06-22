@@ -1622,6 +1622,9 @@ a:focus {
 .box.box-solid.box-danger > .box-header .btn {
   color: #ffffff;
 }
+
+
+
 .box.box-solid.box-warning {
   border: 1px solid #f39c12;
 }
@@ -1634,6 +1637,41 @@ a:focus {
 .box.box-solid.box-warning > .box-header .btn {
   color: #ffffff;
 }
+
+
+
+
+.box.box-solid.box-black {
+  border: 1px solid #3C454D;
+}
+.box.box-solid.box-black > .box-header {
+  color: #ffffff;
+  background: #3C454D;
+  background-color: #3C454D;
+}
+.box.box-solid.box-black > .box-header a,
+.box.box-solid.box-black > .box-header .btn {
+  color: #ffffff;
+}
+
+
+.box.box-solid.box-purple {
+  border: 1px solid #605ca8;
+}
+.box.box-solid.box-purple > .box-header {
+  color: #ffffff;
+  background: #605ca8;
+  background-color: #605ca8;
+}
+.box.box-solid.box-purple > .box-header a,
+.box.box-solid.box-purple > .box-header .btn {
+  color: #ffffff;
+}
+
+
+
+
+
 .box.box-solid.box-success {
   border: 1px solid #00a65a;
 }
@@ -2225,6 +2263,27 @@ a:focus {
 .btn-primary.hover {
   background-color: #367fa9;
 }
+
+.btn-purple {
+  background-color: #605ca8;
+  border-color: #605ca8;
+}
+.btn-purple:hover,
+.btn-purple:active,
+.btn-purple.hover {
+  background-color: #605ca8;
+}
+
+.btn-black {
+  background-color: #3C454D;
+  border-color: #3C454D;
+}
+.btn-black:hover,
+.btn-black:active,
+.btn-black.hover {
+  background-color: #3C454D;
+}
+
 .btn-success {
   background-color: #00a65a;
   border-color: #008d4c;

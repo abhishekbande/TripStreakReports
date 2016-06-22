@@ -3,6 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripstreakReports", "TripstreakReports\TripstreakReports.csproj", "{DDCBF4F8-E6F6-4979-AC07-E8C32E970410}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{9506B34F-85EB-4960-B6B6-984ABEDCC703}"
+	ProjectSection(SolutionItems) = preProject
+		TripstreakReports\References\protobuf-net.dll = TripstreakReports\References\protobuf-net.dll
+		TripstreakReports\References\TripStreak.Infrastructure.Analytics.dll = TripstreakReports\References\TripStreak.Infrastructure.Analytics.dll
+		TripstreakReports\References\TripStreak.Infrastructure.Analytics.pdb = TripstreakReports\References\TripStreak.Infrastructure.Analytics.pdb
+		TripstreakReports\References\TripStreak.Infrastructure.Common.dll = TripstreakReports\References\TripStreak.Infrastructure.Common.dll
+		TripstreakReports\References\TripStreak.Infrastructure.dll = TripstreakReports\References\TripStreak.Infrastructure.dll
+		TripstreakReports\References\TripStreak.Infrastructure.Providers.dll = TripstreakReports\References\TripStreak.Infrastructure.Providers.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

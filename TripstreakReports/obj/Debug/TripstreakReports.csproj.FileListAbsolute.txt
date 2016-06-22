@@ -1049,3 +1049,8 @@ D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\System.Web.Http.xml
 D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\System.Web.Http.WebHost.xml
 D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\bin\Images\favicon.ico
 D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\favicon.ico
+D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\TripStreak.Infrastructure.Analytics.dll
+D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\TripStreak.Infrastructure.dll
+D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\TripStreak.Infrastructure.Common.dll
+D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\TripStreak.Infrastructure.Analytics.pdb
+D:\Git\TripstreakReports_GitLab\TripstreakReports\bin\protobuf-net.dll

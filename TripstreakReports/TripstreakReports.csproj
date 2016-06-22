@@ -47,6 +47,9 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>References\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
@@ -169,6 +172,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="TripStreak.Infrastructure.Analytics">
+      <HintPath>References\TripStreak.Infrastructure.Analytics.dll</HintPath>
+    </Reference>
     <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
@@ -240,6 +246,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MixPanelController.cs" />
+    <Compile Include="Controllers\MixpanelDataExportConnector.cs" />
     <Compile Include="DatAccess\airamenity.cs">
       <DependentUpon>CommonContents.tt</DependentUpon>
     </Compile>
@@ -263,16 +270,30 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ExportFileNameHelper.cs" />
+    <Compile Include="Helper\SegmentColumnHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ReportParameter.cs" />
     <Compile Include="Models\CustomReports.cs" />
     <Compile Include="Models\DashboardModel.cs" />
+    <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MixpanelKeys.cs" />
     <Compile Include="Models\MixpanelModel.cs" />
+    <Compile Include="Models\MixpanelSegmentModel.cs" />
     <Compile Include="Models\PreconfiguredReports.cs" />
+    <Compile Include="Models\ProfileModel.cs" />
+    <Compile Include="Models\SegmentColumn.cs" />
     <Compile Include="Models\SegmentReports.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\MandatorySegmentColumns.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\SegmentReportColumns.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="bin\Images\favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -3017,10 +3038,9 @@
     </Content>
     <Content Include="Views\Shared\_AmenitiesTablePartial.cshtml" />
     <Content Include="Views\MixPanel\Home.cshtml" />
+    <Content Include="Views\Shared\_MixpanelReportPanels.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
