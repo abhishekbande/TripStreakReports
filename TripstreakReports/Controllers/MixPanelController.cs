@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using AmenityUpdator.UI.Controllers;
 using AmenityUpdator.UI.Helper;
+using TripstreakReports.Filters;
+using TripstreakReports.Helper;
 using TripstreakReports.Models;
 using Filter = TripstreakReports.Models.Filter;
 
@@ -20,22 +22,31 @@ namespace TripstreakReports.Controllers
         private static MixpanelKeys _mixpanelKeys;
 
         [HttpGet]
+        [UserAuthentication]
         public ActionResult Home()
         {
+            ViewBag.MessageAlert = TempData["Message"];
+
             ChangeMixpanelKeys();
 
-            MixpanelModel model = new MixpanelModel
-            {
-                IsProdEnvironemt = false,
-                SegmentReports = new SegmentReports
-                {
-                    DateTimeRange = string.Format("{0} - {1}", DateTime.Now.Date, DateTime.Now.Date),
-                    IncludeUserInformation = false
-                }
-            };
+            MixpanelModel model = GetMixpanelModel();
+
             return View(model);
         }
 
+        [HttpPost]
+        [UserAuthentication]
+        public ActionResult Home(MixpanelModel model)
+        {
+            ChangeMixpanelKeys();
+
+            model = GetMixpanelModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [UserAuthentication]
         public ActionResult DownloadPreconfiguredReport(MixpanelModel model)
         {            
             try
@@ -66,35 +77,81 @@ namespace TripstreakReports.Controllers
             }
             catch
             {
-                TempData["Message"] = "Error! Error while downloading data.";
+                TempData["Message"] = "Error! Error occured while downloading data.";
+
+                return RedirectToAction("Home", "MixPanel");
             }
-            return PartialView("_MixpanelReportPanels");
+            return PartialView("_MixpanelReportPanels",GetMixpanelModel());
         }
 
-
+        [HttpPost]
+        [UserAuthentication]
         public ActionResult DownloadSegmentReport(MixpanelModel model)
         {
             try
             {
                 MixpanelDataExportConnector mixpanelDataExport = new MixpanelDataExportConnector(_mixpanelKeys);
 
-                ReportParameter reportParameter = PopulateSegmentReportParameter(model);
+                ReportParameter reportParameter = SegmentReportsHelper.PopulateSegmentReportParameter(model);
 
                 string rawReportResponse = mixpanelDataExport.GetSegmentReport(reportParameter);
 
-                ExportResultToCsv(rawReportResponse, GetFileName(model.SegmentReports.IncludeUserInformation));
+                ExportResultToCsv(rawReportResponse, SegmentReportsHelper.GetFileName(model.SegmentReports.IncludeUserInformation));
             }
             catch
             {
-                TempData["Message"] = "Error! Error while downloading segment report data.";
-            }            
+                TempData["Message"] = "Error! Error occured while downloading segment report data.";
 
-            return PartialView("_MixpanelReportPanels");
+                return RedirectToAction("Home", "MixPanel");
+            }
+
+            return PartialView("_MixpanelReportPanels", GetMixpanelModel());
         }
 
-        private static string GetFileName(bool isUserInfoIncluded)
+        [HttpPost]
+        [UserAuthentication]
+        public ActionResult DownloadCustomReport(MixpanelModel model)
         {
-            return isUserInfoIncluded ? ExportFileNameHelper.SegmentReportWithUserInfo : ExportFileNameHelper.SegmentReport;
+            try
+            {
+                MixpanelDataExportConnector mixpanelDataExport = new MixpanelDataExportConnector(_mixpanelKeys);
+
+                ReportParameter customReportParameters = CustomReportHelper.PopulateCustomReportParameter(model);
+
+                switch (model.CustomReports.ReportType)
+                {
+                    case "UserFfpRanks":
+
+                        string topTenFfpUserResponse = CustomReportHelper.PopulateUserFfpRankReport(mixpanelDataExport, customReportParameters);
+                        ExportResultToCsv(topTenFfpUserResponse, ExportFileNameHelper.TopTenFfpPrograms);
+                        break;
+
+                    case "UserCountWithFfpRank1":
+
+                        string userCountWithFfpAsRankOneResponse = CustomReportHelper.PopulateCountOfUserFfpRankOneReport(mixpanelDataExport, customReportParameters);
+                        ExportResultToCsv(userCountWithFfpAsRankOneResponse, ExportFileNameHelper.UserWithFfpRank1);
+                        break;
+
+                    case "Top10FfpPrograms":
+
+                        string userFfpRankResponse = CustomReportHelper.PopulateTopTenFffpProgramReport(mixpanelDataExport, customReportParameters);
+                        ExportResultToCsv(userFfpRankResponse, ExportFileNameHelper.UserFfpProgramPreferenceRank);
+                        break;
+                  
+                    default:                        
+                        string adhocReportResponse = mixpanelDataExport.GetAdhocReport(customReportParameters);
+                        ExportResultToCsv(adhocReportResponse, ExportFileNameHelper.AdhocPrograms);
+                        break;
+                }
+            }
+            catch
+            {
+                TempData["Message"] = "Error! Error occured while downloading custom report data.";
+
+                return RedirectToAction("Home", "MixPanel");
+            }
+            
+            return PartialView("_MixpanelReportPanels", GetMixpanelModel());
         }
 
         private void ExportResultToCsv(string response, string fileName)
@@ -105,67 +162,7 @@ namespace TripstreakReports.Controllers
             Response.Write(response);
             Response.End();
         }
-
-        private static ReportParameter PopulateSegmentReportParameter(MixpanelModel mixpanelmodel)
-        {
-            ReportParameter customReportParameters = null;
-
-            if (mixpanelmodel != null && mixpanelmodel.SegmentReports != null && !string.IsNullOrEmpty(mixpanelmodel.SegmentReports.DateTimeRange))
-            {
-                customReportParameters = new ReportParameter();
-
-                string[] dateTimeRange = mixpanelmodel.SegmentReports.DateTimeRange.Split('-');
-
-                if (dateTimeRange.Length > 0 && dateTimeRange.Length < 3)
-                {
-                    customReportParameters.ReportStartDate = Convert.ToDateTime(dateTimeRange[0]);
-
-                    customReportParameters.ReportEndDate = Convert.ToDateTime(dateTimeRange[1]);
-
-                    AdjustEndDateAsperPacificTimezone(customReportParameters);
-                }
-            }
-
-            return customReportParameters;
-        }
-
-        //private static ReportParameter PopulateReportParameters(MixpanelModel mixpanelmodel)
-        //{
-        //    ReportParameter customReportParameters = new ReportParameter();
-
-        //    //customReportParameters.OutputColumns = mixpanelmodel.SelectedOutputColumns;
-
-        //    customReportParameters.ReportStartDate = Convert.ToDateTime(mixpanelmodel.SegmentReports.DateTimeRange.Split('-')[0]);
-        //    customReportParameters.ReportEndDate = Convert.ToDateTime(mixpanelmodel.SegmentReports.DateTimeRange.Split('-')[1]);
-
-        //    AdjustEndDateAsperPacificTimezone(customReportParameters);
-
-        //    customReportParameters.IncludeUserInformation = mixpanelmodel.SegmentReportsIncludeUserInfo;
-
-        //    //customReportParameters.Filter.Add(new Filter()
-        //    //{
-        //    //    SelectedProptery = mixpanelmodel.FilterSelectedProptery,
-        //    //    SelectedOperator = mixpanelmodel.FilterSelectedOperator,
-        //    //    SelectedValue = mixpanelmodel.FilterSelectedValue
-        //    //});
-
-        //    return customReportParameters;
-        //}
-
-        private static void AdjustEndDateAsperPacificTimezone(ReportParameter customReportParameters)
-        {
-            DateTime currentPacificTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"));
-            if (customReportParameters.ReportStartDate.Date > currentPacificTime.Date)
-            {
-                customReportParameters.ReportStartDate = currentPacificTime;
-            }
-
-            if (customReportParameters.ReportEndDate.Date > currentPacificTime.Date)
-            {
-                customReportParameters.ReportEndDate = currentPacificTime;
-            }
-        }
-
+             
         [HttpGet]
         public ActionResult SwitchEnvironment(bool isProdEnvironment)
         {
@@ -173,7 +170,7 @@ namespace TripstreakReports.Controllers
 
             ChangeMixpanelKeys();
 
-            MixpanelModel model = new MixpanelModel();            
+            MixpanelModel model = GetMixpanelModel();            
 
             model.IsProdEnvironemt = _isProdEnvironment;
 
@@ -197,5 +194,21 @@ namespace TripstreakReports.Controllers
                 _mixpanelKeys.Token = ConfigurationManager.AppSettings["MixpanelBetaToken"];
             }            
         }
+
+        private static MixpanelModel GetMixpanelModel()
+        {
+            return new MixpanelModel
+            {
+                IsProdEnvironemt = _isProdEnvironment,
+                SegmentReports = new SegmentReports
+                {
+                    DateTimeRange = string.Format("{0} - {1}", DateTime.Now.AddDays(-7).Date, DateTime.Now.Date),
+                    IncludeUserInformation = false
+                },
+                CustomReports = new CustomReports(),
+            };
+        }
+
+       
     }
 }

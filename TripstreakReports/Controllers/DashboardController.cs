@@ -14,6 +14,7 @@ using System.Data.Objects;
 using System.IO;
 using System.Text;
 using System.Web.Services.Description;
+using TripstreakReports.Filters;
 
 namespace TripstreakReports.Controllers
 {    
@@ -26,6 +27,7 @@ namespace TripstreakReports.Controllers
         private static bool _isProdEnvironment=true;
 
         [HttpGet]
+        [UserAuthentication]
         public ActionResult Home()
         {               
             ViewBag.MessageAlert = TempData["Message"];
@@ -47,12 +49,14 @@ namespace TripstreakReports.Controllers
         }
 
         [HttpPost]
+        [UserAuthentication]
         public ActionResult Home(DashboardModel model)
         {
             return View(model);
         }
 
         [HttpPost]
+        [UserAuthentication]
         public ActionResult DeleteAmenities(DashboardModel model)
         {
             if (model != null && !string.IsNullOrEmpty(model.AmenityIds))
@@ -87,6 +91,7 @@ namespace TripstreakReports.Controllers
         }        
 
         [HttpPost]
+        [UserAuthentication]
         public ActionResult AddNewAmenity(DashboardModel model)
         {
             if (model != null)
@@ -144,6 +149,7 @@ namespace TripstreakReports.Controllers
         }
 
         [HttpPost]
+        [UserAuthentication]
         public ActionResult UpdateAmenity(DashboardModel model)
         {
             if (model != null)
@@ -205,6 +211,7 @@ namespace TripstreakReports.Controllers
              return PartialView("_AmenitiesTablePartial", model);
         }
 
+        [UserAuthentication]
         public FileContentResult ExportToCsv()
         {
             try
@@ -269,6 +276,7 @@ namespace TripstreakReports.Controllers
 
 
         [System.Web.Http.HttpPost]
+        [UserAuthentication]
         public ActionResult ImportCsv(HttpPostedFileBase postedFiles)
         {
             try

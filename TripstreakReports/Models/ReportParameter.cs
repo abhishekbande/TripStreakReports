@@ -5,7 +5,7 @@ namespace TripstreakReports.Models
 {
     public class ReportParameter
     {
-        public List<Filter> Filter = new List<Filter>();
+        public Filter Filter = new Filter();
         public string[] OutputColumns { get; set; }
         public DateTime ReportStartDate { get; set; }
         public DateTime ReportEndDate { get; set; }

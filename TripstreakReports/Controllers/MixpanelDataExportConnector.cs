@@ -101,9 +101,19 @@ namespace AmenityUpdator.UI.Controllers
 
         public string GetUserFfpRankReport(ReportParameter customReportParameter)
         {
-            string customSelector = MixpanelSelectorConstants.PreconfigUserFfpRankReportTemplate + " and " +
-                                    GetCustomSelector(customReportParameter.Filter[0].SelectedOperator, customReportParameter.Filter[0].SelectedProptery, customReportParameter.Filter[0].SelectedValue);
-            
+            RootObject result = null;
+           
+            string customSelector = MixpanelSelectorConstants.PreconfigUserFfpRankReportTemplate;
+
+            if (customReportParameter != null && !string.IsNullOrEmpty(customReportParameter.Filter.SelectedOperator) &&
+                !string.IsNullOrEmpty(customReportParameter.Filter.SelectedProptery) &&
+                !string.IsNullOrEmpty(customReportParameter.Filter.SelectedValue))
+            {
+                customSelector = customSelector + " and " +
+                                        GetCustomSelector(customReportParameter.Filter.SelectedOperator,
+                                            customReportParameter.Filter.SelectedProptery,
+                                            customReportParameter.Filter.SelectedValue);
+            }            
 
             MixpanelDownloadRequest mixpanelDownloadRequest = new MixpanelDownloadRequest();
             mixpanelDownloadRequest.ApiKey = ApiKey;
@@ -113,15 +123,22 @@ namespace AmenityUpdator.UI.Controllers
                 {"selector", customSelector}
             };
             MixpanelDataDownloadConnector mixpanelDataDownloadConnector = new MixpanelDataDownloadConnector();
-            RootObject result = mixpanelDataDownloadConnector.DownloadProfileData(mixpanelDownloadRequest);
-            
+            result = mixpanelDataDownloadConnector.DownloadProfileData(mixpanelDownloadRequest);
+         
             return ExtractUserFfpRankData(result);
         }
 
         public string GetUserCountWithFfpAsRankOneReport(ReportParameter customReportParameter)
         {
-            string customSelector = MixpanelSelectorConstants.PreconfigUserCountWithFfpAsRankOneReportTemplate + " and " +
-                                    GetCustomSelector(customReportParameter.Filter[0].SelectedOperator, customReportParameter.Filter[0].SelectedProptery, customReportParameter.Filter[0].SelectedValue);
+            string customSelector = MixpanelSelectorConstants.PreconfigUserCountWithFfpAsRankOneReportTemplate;
+
+            if (customReportParameter != null && !string.IsNullOrEmpty(customReportParameter.Filter.SelectedOperator) &&
+                !string.IsNullOrEmpty(customReportParameter.Filter.SelectedProptery) &&
+                !string.IsNullOrEmpty(customReportParameter.Filter.SelectedValue))
+            {
+                customSelector = customSelector + " and " +
+                                        GetCustomSelector(customReportParameter.Filter.SelectedOperator, customReportParameter.Filter.SelectedProptery, customReportParameter.Filter.SelectedValue);
+            }          
            
             MixpanelDownloadRequest mixpanelDownloadRequest = new MixpanelDownloadRequest();
             mixpanelDownloadRequest.ApiKey = ApiKey;
@@ -159,8 +176,15 @@ namespace AmenityUpdator.UI.Controllers
 
         public string GetTopTenFfpUserPrograms(ReportParameter customReportParameter)
         {
-            string customSelector = MixpanelSelectorConstants.PreconfigTopTenFfpUserProgramsTemplate + " and " +
-                                    GetCustomSelector(customReportParameter.Filter[0].SelectedOperator, customReportParameter.Filter[0].SelectedProptery, customReportParameter.Filter[0].SelectedValue);
+            string customSelector = MixpanelSelectorConstants.PreconfigTopTenFfpUserProgramsTemplate;
+
+            if (customReportParameter != null && !string.IsNullOrEmpty(customReportParameter.Filter.SelectedOperator) &&
+                !string.IsNullOrEmpty(customReportParameter.Filter.SelectedProptery) &&
+                !string.IsNullOrEmpty(customReportParameter.Filter.SelectedValue))
+            {
+                customSelector = customSelector + " and " +
+                                        GetCustomSelector(customReportParameter.Filter.SelectedOperator, customReportParameter.Filter.SelectedProptery, customReportParameter.Filter.SelectedValue);
+            }               
 
             MixpanelDownloadRequest mixpanelDownloadRequest = new MixpanelDownloadRequest();
             mixpanelDownloadRequest.ApiKey = ApiKey;
@@ -177,7 +201,7 @@ namespace AmenityUpdator.UI.Controllers
 
         public string GetAdhocReport(ReportParameter customReportParameter)
         {
-            string customSelector = GetCustomSelector(customReportParameter.Filter[0].SelectedOperator, customReportParameter.Filter[0].SelectedProptery, customReportParameter.Filter[0].SelectedValue);
+            string customSelector = GetCustomSelector(customReportParameter.Filter.SelectedOperator, customReportParameter.Filter.SelectedProptery, customReportParameter.Filter.SelectedValue);
 
             MixpanelDownloadRequest mixpanelDownloadRequest = new MixpanelDownloadRequest();
             mixpanelDownloadRequest.ApiKey = ApiKey;
@@ -187,8 +211,7 @@ namespace AmenityUpdator.UI.Controllers
                 {"selector", customSelector},
                
             };
-            
-            //ixpanleDownloadRequest.SelectorParameters.Add("to_date", "2016-04-04");
+                      
             MixpanelDataDownloadConnector mixpanelDataDownloadConnector = new MixpanelDataDownloadConnector();
             RootObject result = mixpanelDataDownloadConnector.DownloadProfileData(mixpanelDownloadRequest);
 
@@ -814,6 +837,11 @@ namespace AmenityUpdator.UI.Controllers
 
             if (adhocResponse == null || adhocResponse.Results == null)
                 return string.Empty;
+
+            if (outputColumns == null)
+            {
+                outputColumns = new CustomReports().Properties.Select(x=>x.Text).ToArray();
+            }
 
             StringWriter stringWriter = new StringWriter();
             string columnTemplate = "\"@ColumnName\"";

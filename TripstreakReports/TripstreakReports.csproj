@@ -270,9 +270,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\CustomReportHelper.cs" />
     <Compile Include="Helper\ExportFileNameHelper.cs" />
     <Compile Include="Helper\SegmentColumnHelper.cs" />
+    <Compile Include="Helper\SegmentReportsHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BaseReports.cs" />
     <Compile Include="Models\ReportParameter.cs" />
     <Compile Include="Models\CustomReports.cs" />
     <Compile Include="Models\DashboardModel.cs" />
